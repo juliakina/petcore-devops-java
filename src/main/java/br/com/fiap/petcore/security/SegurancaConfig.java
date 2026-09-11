@@ -15,7 +15,7 @@ public class SegurancaConfig {
 	@Bean
 	public SecurityFilterChain filtrar(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests((req) -> req
-				.requestMatchers("/img/**","/css/**","/h2-console/**").permitAll()
+                .requestMatchers("/img/**","/css/**","/h2-console/**","/error").permitAll()
 				.requestMatchers("/tutor/novo","/tutor/cadastrar","/medico/novo","/medico/cadastrar").permitAll()
 				.requestMatchers("/tutor/minha-conta","/tutor/editar","/tutor/atualizar","/tutor/apagar","/pet/novo","/pet/cadastrar","/pet/editar/**","/pet/atualizar/**").hasAuthority("ROLE_TUTOR")
 				.requestMatchers("/medico/minha-conta","/medico/editar","/medico/atualizar","/medico/apagar","/clinica/**","/endereco/**","/medicamento/**","/prontuario/**","/relatorio/**").hasAuthority("ROLE_MEDICO")
