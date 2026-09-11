@@ -22,92 +22,92 @@ alter table clinica_petcore
 alter table pet_petcore
     add constraint fk_pet_historico
     foreign key ("ID_hist_(FK)")
-    references historico_petcore;
+    references historico_petcore(id);
 
 alter table clinica_petcore
     add constraint fk_clinica_endereco
     foreign key ("ID_end_(FK)")
-    references endereco_petcore;
+    references endereco_petcore(id);
 
 alter table prontuario_petcore
     add constraint fk_prontuario_medico
     foreign key ("ID_med_(PK)")
-    references medico_petcore;
+    references medico_petcore(id);
 
 alter table prontuario_petcore
     add constraint fk_prontuario_historico
     foreign key ("ID_hist_(PK)")
-    references historico_petcore;
+    references historico_petcore(id);
 
 alter table exame_petcore
     add constraint fk_exame_medico
     foreign key ("ID_med_(PK)")
-    references medico_petcore;
+    references medico_petcore(id);
 
 alter table exame_petcore
     add constraint fk_exame_prontuario
     foreign key ("ID_pront_(PK)")
-    references prontuario_petcore;
+    references prontuario_petcore(id);
 
 alter table exame_petcore
     add constraint fk_exame_pet
     foreign key ("ID_pet_(FK)")
-    references pet_petcore;
+    references pet_petcore(id);
 
 alter table receita_petcore
     add constraint fk_receita_medico
     foreign key ("ID_med_(PK)")
-    references medico_petcore;
+    references medico_petcore(id);
 
 alter table receita_petcore
     add constraint fk_receita_prontuario
     foreign key ("ID_pront_(PK)")
-    references prontuario_petcore;
+    references prontuario_petcore(id);
 
 alter table receita_petcore
     add constraint fk_receita_pet
     foreign key ("ID_pet_(FK)")
-    references pet_petcore;
+    references pet_petcore(id);
 
 alter table relatorio_petcore
     add constraint fk_relatorio_historico
     foreign key ("ID_hist_(PK)")
-    references historico_petcore;
+    references historico_petcore(id);
 
 alter table relatorio_petcore
     add constraint fk_relatorio_medico
     foreign key ("ID_med_(PK)")
-    references medico_petcore;
+    references medico_petcore(id);
 
 alter table tut_pet_petcore
     add constraint fk_tut_pet_tutor
     foreign key ("ID_tut_(FK)")
-    references tutor_petcore;
+    references tutor_petcore(id);
 
 alter table tut_pet_petcore
     add constraint fk_tut_pet_pet
     foreign key ("ID_pet_(FK)")
-    references pet_petcore;
+    references pet_petcore(id);
 
 alter table rec_medic_petcore
     add constraint fk_rec_medic_receita
     foreign key ("ID_rec_(FK)")
-    references receita_petcore;
+    references receita_petcore(id);
 
 alter table rec_medic_petcore
     add constraint fk_rec_medic_medicamento
     foreign key ("ID_medic_(FK)")
-    references medicamento_petcore;
+    references medicamento_petcore(id);
 
 alter table cli_rel_petcore
     add constraint fk_cli_rel_clinica
     foreign key ("ID_cli_(FK)")
-    references clinica_petcore;
+    references clinica_petcore(id);
 
 alter table cli_rel_petcore
     add constraint fk_cli_rel_relatorio
     foreign key ("ID_rel_(FK)")
-    references relatorio_petcore;
+    references relatorio_petcore(id);
 
 alter table tutor_petcore
     add constraint ck_tutor_sexo check (sexo in ('F','M'));
