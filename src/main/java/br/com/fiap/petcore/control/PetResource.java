@@ -38,7 +38,7 @@ public class PetResource {
 
     @GetMapping("/pet/listar")
     public ModelAndView listarPets(Authentication authentication) {
-        ModelAndView mv = new ModelAndView("/pet/listar");
+        ModelAndView mv = new ModelAndView("pet/listar");
         boolean tutor = authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_TUTOR"));
         if (tutor) {
             var tutorLogado = tutorService.fetchByEmail(authentication.getName());
@@ -53,7 +53,7 @@ public class PetResource {
 
     @GetMapping("/pet/novo")
     public ModelAndView retornarPaginaCadastro() {
-        ModelAndView mv = new ModelAndView("/pet/novo");
+        ModelAndView mv = new ModelAndView("pet/novo");
         mv.addObject("pet", new PetRequest());
 
         return mv;
@@ -68,7 +68,7 @@ public class PetResource {
         }
 
         if (bd.hasErrors()) {
-            return new ModelAndView("/pet/novo");
+            return new ModelAndView("pet/novo");
         }
 
         Pet pet = PetRequest.toEntity(petRequest);
@@ -87,7 +87,7 @@ public class PetResource {
 
         if (op.isPresent()) {
             Pet pet = op.get();
-            ModelAndView mv = new ModelAndView("/pet/detalhes");
+            ModelAndView mv = new ModelAndView("pet/detalhes");
             mv.addObject("pet", pet);
             mv.addObject("tutor", tutor);
             mv.addObject("examesAgendados", pet.getExames() == null ? List.of() : pet.getExames().stream()
@@ -112,7 +112,7 @@ public class PetResource {
 
         if (op.isPresent()) {
             if (op.get().getStatus() == StatusEnum.INATIVO) return new ModelAndView("redirect:/pet/detalhes/" + id);
-            ModelAndView mv = new ModelAndView("/pet/edicao_status");
+            ModelAndView mv = new ModelAndView("pet/edicao_status");
             mv.addObject("pet", PetDadosRequest.toDto(op.get()));
             mv.addObject("id", id);
 
@@ -128,7 +128,7 @@ public class PetResource {
         Optional<Pet> petAtual = petService.fetchById(id);
         if (petAtual.isEmpty() || petAtual.get().getStatus() == StatusEnum.INATIVO) return new ModelAndView("redirect:/pet/detalhes/" + id);
         if (bd.hasErrors()) {
-            ModelAndView mv = new ModelAndView("/pet/edicao_status");
+            ModelAndView mv = new ModelAndView("pet/edicao_status");
             mv.addObject("id", id);
 
             return mv;
@@ -146,7 +146,7 @@ public class PetResource {
 
         if (op.isPresent()) {
             if (op.get().getStatus() == StatusEnum.INATIVO) return new ModelAndView("redirect:/pet/detalhes/" + id);
-            ModelAndView mv = new ModelAndView("/pet/edicao_imagem");
+            ModelAndView mv = new ModelAndView("pet/edicao_imagem");
             mv.addObject("pet", PetImgRequest.toDto(op.get()));
             mv.addObject("id", id);
 
@@ -162,7 +162,7 @@ public class PetResource {
         Optional<Pet> petAtual = petService.fetchById(id);
         if (petAtual.isEmpty() || petAtual.get().getStatus() == StatusEnum.INATIVO) return new ModelAndView("redirect:/pet/detalhes/" + id);
         if (bd.hasErrors()) {
-            ModelAndView mv = new ModelAndView("/pet/edicao_imagem");
+            ModelAndView mv = new ModelAndView("pet/edicao_imagem");
             mv.addObject("id", id);
 
             return mv;

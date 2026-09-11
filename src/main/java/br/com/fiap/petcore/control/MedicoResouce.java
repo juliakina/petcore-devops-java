@@ -34,7 +34,7 @@ public class MedicoResouce {
 
     @GetMapping("/medico/novo")
     public ModelAndView retornarPaginaCadastro() {
-        ModelAndView mv = new ModelAndView("/medico/novo");
+        ModelAndView mv = new ModelAndView("medico/novo");
         mv.addObject("medico", new MedicoCreateRequest());
         return mv;
     }
@@ -56,7 +56,7 @@ public class MedicoResouce {
         if (medicoRequest.getEmail() != null && !medicoRequest.getEmail().isBlank() && (medicoService.existsByEmail(medicoRequest.getEmail()) || tutorService.existsByEmail(medicoRequest.getEmail()))) {
             bd.rejectValue("email","email.duplicado","Já existe um usuário cadastrado com este email.");
         }
-        if (bd.hasErrors()) return new ModelAndView("/medico/novo");
+        if (bd.hasErrors()) return new ModelAndView("medico/novo");
 
         medicoService.create(MedicoCreateRequest.toEntity(medicoRequest));
         return new ModelAndView("redirect:/login?cadastro=true");
@@ -66,7 +66,7 @@ public class MedicoResouce {
     public ModelAndView minhaConta(Authentication authentication) {
         Optional<Medico> medico = medicoService.fetchByEmail(authentication.getName());
         if (medico.isPresent()) {
-            ModelAndView mv = new ModelAndView("/medico/detalhes");
+            ModelAndView mv = new ModelAndView("medico/detalhes");
             mv.addObject("medico", medico.get());
             return mv;
         }
@@ -77,7 +77,7 @@ public class MedicoResouce {
     public ModelAndView retornarPaginaEdicao(Authentication authentication) {
         Optional<Medico> medico = medicoService.fetchByEmail(authentication.getName());
         if (medico.isPresent()) {
-            ModelAndView mv = new ModelAndView("/medico/edicao");
+            ModelAndView mv = new ModelAndView("medico/edicao");
             UserDadosRequest dto = UserDadosRequest.toDtoMed(medico.get());
             dto.setSenha(null);
             mv.addObject("medico", dto);
@@ -97,7 +97,7 @@ public class MedicoResouce {
         if (dadosDto.getEmail() != null && !dadosDto.getEmail().isBlank() && ((!dadosDto.getEmail().equals(atual.get().getEmail()) && medicoService.existsByEmail(dadosDto.getEmail())) || tutorService.existsByEmail(dadosDto.getEmail()))) {
             bd.rejectValue("email","email.duplicado","Já existe um usuário cadastrado com este email.");
         }
-        if (bd.hasErrors()) return new ModelAndView("/medico/edicao");
+        if (bd.hasErrors()) return new ModelAndView("medico/edicao");
 
         medicoService.update(atual.get().getId(), UserDadosRequest.toEntityMed(dadosDto));
         return new ModelAndView("redirect:/medico/minha-conta");
@@ -114,7 +114,7 @@ public class MedicoResouce {
             if (medico.get().getRelatorios() != null) medico.get().getRelatorios().forEach(relatorio -> associados.add("Relatório"));
 
             if (!associados.isEmpty()) {
-                ModelAndView mv = new ModelAndView("/medico/detalhes");
+                ModelAndView mv = new ModelAndView("medico/detalhes");
                 mv.addObject("medico", medico.get());
                 mv.addObject("erroExclusao", "Não é possível apagar a conta enquanto existirem registros associados a ela: " + String.join(", ", associados));
                 return mv;
